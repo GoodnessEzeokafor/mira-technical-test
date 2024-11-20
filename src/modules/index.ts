@@ -1,3 +1,4 @@
+import { DatabaseServicesModule } from "./database";
 import { FxqlModule } from "./fxql-statements/fxql.module";
 
-export default [FxqlModule]
+export default [DatabaseServicesModule, FxqlModule]

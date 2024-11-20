@@ -15,14 +15,6 @@ export class FxQlServices {
 
         const currencyMap = new Map(); // Map to track unique currency pairs
         FXQL = FXQL.replace(/\\n/g, '\n');
-
-        // map to track unique pairs
-        // Use a regex to match individual FXQL blocks
-        const pairs = FXQL.match(/(\w+-\w+)\s*{\s*BUY\s*([\d.]+)\s*SELL\s*([\d.]+)\s*CAP\s*(\d+)\s*}/g);
-        console.log("=== pairs -===")
-        console.log(pairs)
-        console.log("=== pairs -===")
-
         const blockRegex = /(\w+)-(\w+)\s*{\s*BUY\s*([\d.]+)\s*SELL\s*([\d.]+)\s*CAP\s*(\d+)\s*}/g;
 
         let match;
@@ -30,10 +22,7 @@ export class FxQlServices {
 
         // Use exec() to extract each block in a loop
         while ((match = blockRegex.exec(FXQL)) !== null) {
-            const [fullMatch, sourceCurrency, destinationCurrency, buy, sell, cap] = match;
-            console.log("===== matched pair ====")
-            console.log(fullMatch, sourceCurrency, destinationCurrency, buy, sell, cap)
-            console.log("===== matched pair ====")
+            const [sourceCurrency, destinationCurrency, buy, sell, cap] = match;
 
             this.validateFXQLBlock({
                 FXQL,
@@ -46,6 +35,9 @@ export class FxQlServices {
 
             // Increment entryId
             entryId++;
+            if (entryId > 1000) {
+                return this.response.error409Response("The maximum allowed currency pairs per request is 1000");
+            }
 
             // Construct the entry for the current pair
             const currencyKey = `${sourceCurrency}-${destinationCurrency}`;
