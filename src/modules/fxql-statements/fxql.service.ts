@@ -1,12 +1,18 @@
 import { Injectable } from "@nestjs/common";
 import { IFxQl } from "./type";
 import { ResponseUtilsService } from "src/shared/utils";
+import { IDatabaseServices } from "../database/sequelize";
+import { FxqlEntity } from "./entity";
+import { EventEmitter2, OnEvent } from "@nestjs/event-emitter"
 
 @Injectable()
 export class FxQlServices {
 
     constructor(
-        public readonly response: ResponseUtilsService
+        private readonly db: IDatabaseServices,
+        private readonly emitter: EventEmitter2,
+        private readonly response: ResponseUtilsService,
+
     ) { }
 
     async fxqlStatements(payload: IFxQl) {
@@ -55,6 +61,16 @@ export class FxQlServices {
 
         const data = Array.from(currencyMap.values());
 
+        // save to db 
+        const dbData = data.map((_data) => ({
+            sourceCurrency: _data?.SourceCurrency,
+            destinationCurrency: _data?.DestinationCurrency,
+            buy: _data?.BuyPrice,
+            sell: _data?.SellPrice,
+            cap: _data?.CapAmount
+        })) as FxqlEntity[]
+
+        this.emitter.emit('process.save.to.db', dbData)
 
 
         return this.response.success200Response({
@@ -100,5 +116,13 @@ export class FxQlServices {
         }
     };
 
+
+    @OnEvent('process.save.to.db')
+    async saveFxqlToDb(payload: FxqlEntity[]) {
+
+        console.log(">>>>> saving to DB")
+        await this.db.fxql.bulkCreate(payload)
+        return
+    }
 
 }

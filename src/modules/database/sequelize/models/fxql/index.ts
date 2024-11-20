@@ -32,19 +32,19 @@ export class Fxql extends Model<Fxql> implements FxqlEntity {
     destinationCurrency: string;
 
     @Column({
-        type: DataType.DECIMAL(15, 2).UNSIGNED, // Precision and scale
+        type: DataType.DECIMAL(15, 6).UNSIGNED, // Precision and scale
         defaultValue: 0, // Default value
     })
     buy: number;
 
     @Column({
-        type: DataType.DECIMAL(15, 2).UNSIGNED, // Precision and scale
+        type: DataType.DECIMAL(15, 6).UNSIGNED, // Precision and scale
         defaultValue: 0, // Default value
     })
     sell: number;
 
     @Column({
-        type: DataType.DECIMAL(15, 2).UNSIGNED, // Precision and scale
+        type: DataType.DECIMAL(15, 6).UNSIGNED, // Precision and scale
         defaultValue: 0, // Default value
     })
     cap: number;
