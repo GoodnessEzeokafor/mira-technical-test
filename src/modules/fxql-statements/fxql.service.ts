@@ -22,7 +22,7 @@ export class FxQlServices {
 
         // Use exec() to extract each block in a loop
         while ((match = blockRegex.exec(FXQL)) !== null) {
-            const [sourceCurrency, destinationCurrency, buy, sell, cap] = match;
+            const [_, sourceCurrency, destinationCurrency, buy, sell, cap] = match;
 
             this.validateFXQLBlock({
                 FXQL,
@@ -72,6 +72,7 @@ export class FxQlServices {
         FXQL: string
     }) {
         const { sourceCurrency, destinationCurrency, buy, sell, cap, FXQL } = payload
+
 
         if (sourceCurrency.toUpperCase() !== sourceCurrency) {
             throw new Error(`Invalid: '${sourceCurrency}' should be in uppercase`)
