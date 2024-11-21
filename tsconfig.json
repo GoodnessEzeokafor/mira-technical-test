@@ -15,6 +15,10 @@
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "paths": {
+      "src/*": ["src/*"],
+      "src/shared/*": ["src/shared/*"]
+    }
   }
 }

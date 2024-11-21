@@ -6,7 +6,7 @@ import { ResponseStateEnum } from 'src/shared/enum/response';
 export type ISuccessResponse = {
   message: string;
   token?: string;
-  data: Record<string, any> | string | number | boolean;
+  data: Record<string, any> | string | number | boolean | any;
   status?: HttpStatus;
   state?: ResponseStateEnum;
   code?: string

@@ -98,7 +98,7 @@ export class FxQlServices {
             throw new Error(`Invalid: '${destinationCurrency}' should be in uppercase`);
         }
 
-        const pairRegex = new RegExp(`${sourceCurrency}-${destinationCurrency}\\s*{`);
+        const pairRegex = new RegExp(`${sourceCurrency}-${destinationCurrency} \\{`);
         if (!pairRegex.test(FXQL)) {
             throw new Error(`Invalid: Missing single space after currency pair '${sourceCurrency}-${destinationCurrency}'`);
         }
