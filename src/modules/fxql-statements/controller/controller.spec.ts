@@ -62,15 +62,12 @@ describe('FxQlController', () => {
             // Mock service behavior
             mockFxQlService.fxqlStatements.mockResolvedValue(mockServiceResponse);
 
-            // Call the controller method
             await controller.fxqlStatements(mockRequestBody, mockResponse);
 
-            // Verify service method is called with correct arguments
             expect(mockFxQlService.fxqlStatements).toHaveBeenCalledWith({
                 FXQL: 'USD-EUR { BUY 1.12 SELL 1.10 CAP 100 }',
             });
 
-            // Verify response methods are called correctly
             expect(mockStatus).toHaveBeenCalledWith(200);
             expect(mockJson).toHaveBeenCalledWith(mockServiceResponse);
         });
